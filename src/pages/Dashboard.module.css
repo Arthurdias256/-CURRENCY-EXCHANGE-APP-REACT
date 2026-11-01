@@ -71,7 +71,7 @@
   gap: 2px;
   min-width: 128px;
   padding: 11px 14px;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--color-surface-tint);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
 }

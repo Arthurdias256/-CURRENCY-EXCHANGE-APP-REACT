@@ -4,7 +4,7 @@
 
 ## Objetivo do protótipo
 
-Representar a interface implementada do Currency Exchange App, incluindo conversão, consulta histórica, tabela e exportação CSV. Os frames devem mostrar estados reais de interface, sem inserir resultados fictícios como se viessem da API.
+Representar a interface implementada do Currency Exchange App, incluindo conversão, consulta histórica, tabela, exportação CSV, seleção de idioma e alternância de tema. Os frames devem mostrar estados reais de interface, sem inserir resultados fictícios como se viessem da API.
 
 ## Frames recomendados
 
@@ -51,8 +51,8 @@ Raios: 10 px para controles pequenos, 16 px para painéis médios e 24 px para c
 
 ## Componentes e variantes
 
-- **Header:** marca, nome do app, subtítulo e status de desenvolvimento; ocultar subtítulo/status em viewport estreito.
-- **CurrencySelect:** rótulo, valor, opções agrupadas em moedas principais e demais moedas, estado desabilitado durante carregamento.
+- **Header:** marca, nome do app, seletor Português/English/Español, botão claro/escuro, subtítulo e status de desenvolvimento; ocultar subtítulo/status em viewport estreito.
+- **CurrencySelect:** rótulo, valor, imagem da bandeira, busca e opções agrupadas em moedas principais e demais moedas, estado desabilitado durante carregamento.
 - **Campo de valor:** código da moeda prefixado; estados normal, focado e inválido.
 - **Botão inverter:** ícone de setas; manter nome acessível “Inverter moedas”.
 - **Resultado:** cotação, valor formatado, taxa, data efetiva; variantes carregando, erro, mesmo par e entrada inválida.
@@ -60,6 +60,8 @@ Raios: 10 px para controles pequenos, 16 px para painéis médios e 24 px para c
 - **Cards de estatísticas:** última cotação, mínima, máxima e variação; indicar visualmente variações positivas e negativas.
 - **Gráfico:** área em destaque, eixos com datas/taxas e tooltip por ponto.
 - **Tabela:** data, par, taxa, busca por data, cabeçalhos ordenáveis e botão Exportar CSV.
+
+O seletor de idioma e o tema escolhido permanecem após recarregar a página. Represente os estados claro e escuro como variantes visuais do mesmo dashboard.
 
 ## Fluxos a prototipar
 

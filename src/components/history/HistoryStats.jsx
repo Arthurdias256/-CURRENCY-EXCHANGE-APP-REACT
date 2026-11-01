@@ -1,4 +1,5 @@
 import { formatDate, formatPercent, formatRate } from '../../utils/currency.js'
+import { useI18n } from '../../i18n/useI18n.js'
 import styles from './HistoryStats.module.css'
 
 function findExtreme(points, mode) {
@@ -13,6 +14,7 @@ function findExtreme(points, mode) {
 }
 
 function HistoryStats({ points, quote, isGrouped }) {
+  const { locale, t } = useI18n()
   const first = points[0]
   const last = points[points.length - 1]
   const minPoint = findExtreme(points, 'min')
@@ -31,44 +33,44 @@ function HistoryStats({ points, quote, isGrouped }) {
         : styles.down
 
   return (
-    <ul className={styles.stats} aria-label="Resumo do período">
+    <ul className={styles.stats} aria-label={t('history.statsLabel')}>
       <li className={styles.card}>
         <span className={styles.label}>
-          {isGrouped ? 'Último dado' : 'Última cotação'}
+          {isGrouped ? t('history.lastData') : t('history.latestQuote')}
         </span>
         <span className={styles.value}>
-          {formatRate(last.rate)} <small>{quote}</small>
+          {formatRate(last.rate, locale)} <small>{quote}</small>
         </span>
-        <span className={styles.meta}>{formatDate(last.date)}</span>
+        <span className={styles.meta}>{formatDate(last.date, locale)}</span>
       </li>
 
       <li className={styles.card}>
-        <span className={styles.label}>Mínima</span>
+        <span className={styles.label}>{t('history.minimum')}</span>
         <span className={styles.value}>
-          {formatRate(minPoint.rate)} <small>{quote}</small>
+          {formatRate(minPoint.rate, locale)} <small>{quote}</small>
         </span>
-        <span className={styles.meta}>{formatDate(minPoint.date)}</span>
+        <span className={styles.meta}>{formatDate(minPoint.date, locale)}</span>
       </li>
 
       <li className={styles.card}>
-        <span className={styles.label}>Máxima</span>
+        <span className={styles.label}>{t('history.maximum')}</span>
         <span className={styles.value}>
-          {formatRate(maxPoint.rate)} <small>{quote}</small>
+          {formatRate(maxPoint.rate, locale)} <small>{quote}</small>
         </span>
-        <span className={styles.meta}>{formatDate(maxPoint.date)}</span>
+        <span className={styles.meta}>{formatDate(maxPoint.date, locale)}</span>
       </li>
 
       <li className={styles.card}>
-        <span className={styles.label}>Variação no período</span>
+        <span className={styles.label}>{t('history.variation')}</span>
         <span className={`${styles.value} ${variationClass}`}>
           {variation !== null && variation !== 0 && (
             <span className={styles.arrow} aria-hidden="true">
               {variation > 0 ? '▲' : '▼'}
             </span>
           )}
-          {formatPercent(variation)}
+          {formatPercent(variation, locale)}
         </span>
-        <span className={styles.meta}>Primeiro ao último dia</span>
+        <span className={styles.meta}>{t('history.firstToLast')}</span>
       </li>
     </ul>
   )

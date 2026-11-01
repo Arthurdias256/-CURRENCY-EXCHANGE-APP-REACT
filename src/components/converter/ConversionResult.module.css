@@ -9,7 +9,7 @@
   overflow: hidden;
   background:
     radial-gradient(circle at 100% 0%, rgba(86, 224, 192, 0.13), transparent 55%),
-    rgba(7, 13, 24, 0.58);
+    var(--color-control-bg);
   border: 1px solid rgba(86, 224, 192, 0.2);
   border-radius: var(--radius-md);
 }
@@ -26,8 +26,8 @@
 }
 
 .resultError {
-  background: rgba(127, 29, 29, 0.12);
-  border-color: rgba(248, 113, 113, 0.32);
+  background: var(--color-danger-bg);
+  border-color: var(--color-danger-border);
 }
 
 .resultLabel {
@@ -93,7 +93,7 @@
 .errorTitle {
   font-size: 0.92rem;
   font-weight: 600;
-  color: #fca5a5;
+  color: var(--color-danger-text);
 }
 
 .errorMessage {
@@ -110,14 +110,14 @@
   font-size: 0.78rem;
   font-weight: 600;
   color: var(--color-text);
-  background: rgba(248, 113, 113, 0.1);
-  border: 1px solid rgba(248, 113, 113, 0.28);
+  background: var(--color-danger-action-bg);
+  border: 1px solid var(--color-danger-border);
   border-radius: 999px;
   transition: background-color 160ms ease;
 }
 
 .retryButton:hover {
-  background: rgba(248, 113, 113, 0.18);
+  background: var(--color-danger-action-hover);
 }
 
 .placeholder {

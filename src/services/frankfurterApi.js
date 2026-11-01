@@ -1,10 +1,11 @@
 import { API_BASE_URL } from '../constants/api.js'
 
 export class ApiError extends Error {
-  constructor(message, status = 0) {
+  constructor(message, status = 0, code = 'api.httpGeneric') {
     super(message)
     this.name = 'ApiError'
     this.status = status
+    this.code = code
   }
 }
 
@@ -34,13 +35,21 @@ async function request(path, { signal } = {}) {
 
     throw new ApiError(
       'Não foi possível conectar à API Frankfurter. Verifique sua conexão e tente novamente.',
+      0,
+      'api.connection',
     )
   }
 
   const data = await response.json().catch(() => null)
 
   if (!response.ok) {
-    throw new ApiError(getErrorMessage(response.status), response.status)
+    const code =
+      response.status === 400 ||
+      response.status === 404 ||
+      response.status === 422
+        ? `api.http${response.status}`
+        : 'api.httpGeneric'
+    throw new ApiError(getErrorMessage(response.status), response.status, code)
   }
 
   return data
@@ -48,7 +57,11 @@ async function request(path, { signal } = {}) {
 
 function normalizeCurrencies(data) {
   if (!Array.isArray(data)) {
-    throw new ApiError('A API retornou a lista de moedas em um formato inesperado.')
+    throw new ApiError(
+      'A API retornou a lista de moedas em um formato inesperado.',
+      0,
+      'api.currencyData',
+    )
   }
 
   const seen = new Set()
@@ -86,7 +99,11 @@ export async function getRate(base, quote, { signal } = {}) {
   )
 
   if (!data || typeof data.rate !== 'number') {
-    throw new ApiError('A API retornou a cotação em um formato inesperado.')
+    throw new ApiError(
+      'A API retornou a cotação em um formato inesperado.',
+      0,
+      'api.rateData',
+    )
   }
 
   return {
@@ -110,7 +127,11 @@ export async function getTimeSeries(base, quote, { from, to, group, signal } = {
   const data = await request(`/rates?${searchParams.toString()}`, { signal })
 
   if (!Array.isArray(data)) {
-    throw new ApiError('A API retornou o histórico em um formato inesperado.')
+    throw new ApiError(
+      'A API retornou o histórico em um formato inesperado.',
+      0,
+      'api.historyData',
+    )
   }
 
   return data

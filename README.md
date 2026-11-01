@@ -2,7 +2,7 @@
 
 SPA em React para conversão e análise de moedas, desenvolvida como projeto acadêmico com a API pública [Frankfurter](https://frankfurter.dev/).
 
-> **Status:** Conversor, histórico de 8 períodos, gráfico, tabela com busca e ordenação, exportação CSV, Collection do Postman e documentação acadêmica implementados usando dados reais da Frankfurter API v2. Os protótipos no Figma ainda não foram criados.
+> **Status:** Conversor com bandeiras de países nos seletores, histórico de 8 períodos, gráfico, tabela com busca e ordenação, exportação CSV, interface em português/inglês/espanhol, temas claro/escuro, Collection do Postman e documentação acadêmica implementados usando dados reais da Frankfurter API v2. Os protótipos no Figma ainda não foram criados.
 
 ## Objetivo
 
@@ -12,12 +12,15 @@ Centralizar a consulta de taxas de câmbio, a conversão de valores e a análise
 
 - Conversão automática entre duas moedas com a taxa mais recente da API.
 - Seleção entre 170 moedas disponíveis, com destaque para as principais.
+- Imagens de bandeiras de países/territórios nos seletores pesquisáveis; carregadas do FlagCDN, moedas sem país único usam um ícone neutro e imagens indisponíveis têm fallback para emoji.
 - Inversão rápida das moedas de origem e destino.
 - Exibição do valor convertido, da taxa aplicada e da data efetiva da cotação.
 - Validação de valores vazios, inválidos ou menores ou iguais a zero.
 - Tratamento de loading, erro de conexão, moeda inválida e tentativa de nova consulta.
 - Suporte a conversão entre a mesma moeda, sem chamada desnecessária à API.
-- Formatação de valores em pt-BR, incluindo taxas muito pequenas (ex.: BTC).
+- Interface em português, inglês e espanhol, com preferência salva no navegador.
+- Tema claro e escuro, com preferência salva no navegador.
+- Formatação de valores e datas de acordo com o idioma selecionado, incluindo taxas muito pequenas (ex.: BTC).
 - Histórico de cotações em 8 períodos: 7d, 15d, 30d, 3m, 6m, 1y, 5y e 10y.
 - Gráfico de evolução da taxa com tooltip por data.
 - Resumo do período com última cotação (ou último dado), mínima, máxima e variação percentual.

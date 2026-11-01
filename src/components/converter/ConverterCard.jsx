@@ -5,6 +5,7 @@ import {
   isValidAmount,
   parseAmount,
 } from '../../utils/currency.js'
+import { useI18n } from '../../i18n/useI18n.js'
 import ConversionResult from './ConversionResult'
 import CurrencySelect from './CurrencySelect'
 import styles from './ConverterCard.module.css'
@@ -18,6 +19,7 @@ function ConverterCard({
   onToChange,
   onSwap,
 }) {
+  const { locale, t } = useI18n()
   const {
     currencies,
     isLoading: isLoadingCurrencies,
@@ -46,27 +48,31 @@ function ConverterCard({
     <section className={styles.card} aria-labelledby="converter-title">
       <div className={styles.header}>
         <div>
-          <p className={styles.kicker}>Conversor</p>
+          <p className={styles.kicker}>{t('converter.kicker')}</p>
           <h2 id="converter-title" className={styles.title}>
-            Cotação em tempo real
+            {t('converter.title')}
           </h2>
         </div>
 
         <span className={styles.badge}>
           <span className={styles.badgeDot} aria-hidden="true" />
-          Dados reais
+          {t('converter.realData')}
         </span>
       </div>
 
       {currenciesError && (
         <div className={styles.errorBox} role="alert">
-          <p>{currenciesError.message}</p>
+          <p>
+            {currenciesError.code
+              ? t(currenciesError.code)
+              : currenciesError.message}
+          </p>
           <button
             type="button"
             className={styles.inlineRetry}
             onClick={retryCurrencies}
           >
-            Recarregar moedas
+            {t('converter.reloadCurrencies')}
           </button>
         </div>
       )}
@@ -74,7 +80,7 @@ function ConverterCard({
       <div className={styles.form}>
         <div className={styles.amountField}>
           <label className={styles.label} htmlFor="conversion-amount">
-            Valor
+            {t('converter.amount')}
           </label>
 
           <div className={styles.amountControl}>
@@ -85,7 +91,7 @@ function ConverterCard({
               type="text"
               inputMode="decimal"
               autoComplete="off"
-              placeholder="0,00"
+              placeholder={t('converter.amountPlaceholder')}
               value={amount}
               onChange={(event) => onAmountChange(event.target.value)}
               aria-invalid={!isAmountValid}
@@ -95,7 +101,7 @@ function ConverterCard({
 
           {!isAmountValid && (
             <p id="amount-error" className={styles.fieldError} role="alert">
-              Informe um valor maior que zero.
+              {t('converter.amountError')}
             </p>
           )}
         </div>
@@ -103,7 +109,7 @@ function ConverterCard({
         <div className={styles.pairRow}>
           <CurrencySelect
             id="from-currency"
-            label="De"
+            label={t('converter.from')}
             value={fromCurrency}
             onChange={onFromChange}
             currencies={currencies}
@@ -115,8 +121,8 @@ function ConverterCard({
             type="button"
             className={styles.swapButton}
             onClick={onSwap}
-            aria-label="Inverter moedas"
-            title="Inverter moedas"
+            aria-label={t('converter.swap')}
+            title={t('converter.swap')}
           >
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
@@ -131,7 +137,7 @@ function ConverterCard({
 
           <CurrencySelect
             id="to-currency"
-            label="Para"
+            label={t('converter.to')}
             value={toCurrency}
             onChange={onToChange}
             currencies={currencies}
@@ -142,8 +148,7 @@ function ConverterCard({
       </div>
 
       <p className={styles.hint}>
-        A cotação é atualizada automaticamente ao alterar o valor ou o par de
-        moedas.
+        {t('converter.hint')}
       </p>
 
       <ConversionResult
@@ -156,11 +161,13 @@ function ConverterCard({
         onRetry={retryRate}
         isAmountValid={isAmountValid}
         isSameCurrency={isSameCurrency}
+        locale={locale}
+        t={t}
       />
 
       <div className={styles.footer}>
-        <span>Fonte: Frankfurter API v2</span>
-        <span>Taxa de referência</span>
+        <span>{t('converter.source')}</span>
+        <span>{t('converter.referenceRate')}</span>
       </div>
     </section>
   )

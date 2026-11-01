@@ -14,17 +14,19 @@ npm run build
 
 | Arquivo | Cenário coberto |
 |---|---|
-| `src/components/converter/ConverterCard.test.jsx` | Cálculo do valor convertido; validação de zero; propagação de alterações do valor e moeda; inversão do par; mesma moeda; mensagem e nova tentativa após falha. |
+| `src/components/converter/ConverterCard.test.jsx` | Cálculo do valor convertido; imagens de bandeiras nos seletores, busca de moeda e fallback quando uma imagem falha; validação de zero; propagação de alterações do valor e moeda; inversão do par; mesma moeda; mensagem e nova tentativa após falha. |
 | `src/hooks/useExchangeRate.test.jsx` | Moedas iguais não fazem chamada; troca para moedas iguais encerra loading durante requisição pendente; retorno de taxa para par distinto. |
 | `src/hooks/useHistoricalRates.test.jsx` | Consulta do intervalo e agrupamento; ausência de chamada para moedas iguais; nova tentativa após erro. |
 | `src/components/history/HistorySection.test.jsx` | Seleção do período e envio do período ativo ao hook. |
 | `src/components/history/HistoryTable.test.jsx` | Busca por data localizada; ordenação crescente/decrescente sem mutar dados; CSV filtrado com valor convertido e BOM; desativação da exportação sem resultados. |
+| `src/i18n/I18nProvider.test.jsx` | Alternância entre português, inglês e espanhol; atualização do idioma do documento; alternância e persistência dos temas claro/escuro. |
+| `src/utils/currencyFlags.test.js` | URLs de imagens de bandeiras de países e região monetária, emoji correspondente e fallback neutro para moedas sem bandeira única. |
 
 ## Última execução registrada
 
 No clone durante a elaboração destes documentos:
 
-- **Vitest:** 5 arquivos e 16 testes passaram.
+- **Vitest:** 7 arquivos e 27 testes passaram.
 - **ESLint:** passou.
 - **Build Vite:** passou.
 

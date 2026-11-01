@@ -11,13 +11,15 @@ function ConversionResult({
   onRetry,
   isAmountValid,
   isSameCurrency,
+  locale,
+  t,
 }) {
   if (isLoading) {
     return (
       <div className={styles.result} aria-live="polite">
         <div className={styles.loading}>
           <span className={styles.spinner} aria-hidden="true" />
-          Buscando cotação...
+          {t('result.loading')}
         </div>
       </div>
     )
@@ -26,10 +28,12 @@ function ConversionResult({
   if (error) {
     return (
       <div className={`${styles.result} ${styles.resultError}`} aria-live="polite">
-        <p className={styles.errorTitle}>Não foi possível obter a cotação</p>
-        <p className={styles.errorMessage}>{error.message}</p>
+        <p className={styles.errorTitle}>{t('result.errorTitle')}</p>
+        <p className={styles.errorMessage}>
+          {error.code ? t(error.code) : error.message}
+        </p>
         <button type="button" className={styles.retryButton} onClick={onRetry}>
-          Tentar novamente
+          {t('result.retry')}
         </button>
       </div>
     )
@@ -39,7 +43,7 @@ function ConversionResult({
     return (
       <div className={styles.result} aria-live="polite">
         <p className={styles.placeholder}>
-          Selecione um par de moedas para consultar a cotação.
+          {t('result.placeholder')}
         </p>
       </div>
     )
@@ -47,29 +51,35 @@ function ConversionResult({
 
   return (
     <div className={styles.result} aria-live="polite">
-      <p className={styles.resultLabel}>Resultado</p>
+      <p className={styles.resultLabel}>{t('result.label')}</p>
 
       <p className={styles.resultValue}>
-        {isAmountValid ? formatCurrency(convertedAmount, toCurrency) : '—'}
+        {isAmountValid ? formatCurrency(convertedAmount, toCurrency, locale) : '—'}
       </p>
 
       {!isAmountValid && (
         <p className={styles.resultMeta}>
-          Informe um valor válido para converter.
+          {t('result.amountError')}
         </p>
       )}
 
       <div className={styles.rateRow}>
         <span>
           {isSameCurrency
-            ? 'Mesma moeda'
-            : `1 ${fromCurrency} = ${formatRate(rateData.rate)} ${toCurrency}`}
+            ? t('result.sameCurrency')
+            : t('chart.rate', {
+                base: fromCurrency,
+                rate: formatRate(rateData.rate, locale),
+                quote: toCurrency,
+              })}
         </span>
 
         {rateData.date ? (
-          <span>Cotação de {formatDate(rateData.date)}</span>
+          <span>
+            {t('result.quoteDate', { date: formatDate(rateData.date, locale) })}
+          </span>
         ) : (
-          <span>Sem conversão cambial</span>
+          <span>{t('result.noConversion')}</span>
         )}
       </div>
     </div>

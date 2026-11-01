@@ -3,6 +3,7 @@
 ## Visão geral
 
 A aplicação é uma SPA React. O componente `App` compõe o cabeçalho, o dashboard e o rodapé. O `Dashboard` mantém valor e par de moedas em uma única fonte de estado e os fornece ao conversor e ao histórico.
+O `I18nProvider` disponibiliza idioma e tema para toda a interface, salva as preferências no navegador e define o locale usado na formatação de datas, números e moedas.
 
 ```text
 main.jsx
@@ -26,7 +27,7 @@ main.jsx
 | `Header` | Exibir identificação e estado do projeto. |
 | `Dashboard` | Manter valor e moedas selecionadas; compartilhar esses dados entre conversor e histórico; inverter o par. |
 | `ConverterCard` | Apresentar entrada, seletores, inversão e resultado. Integra `useCurrencies` e `useExchangeRate`. |
-| `CurrencySelect` | Exibir as moedas disponíveis com agrupamento visual. |
+| `CurrencySelect` | Exibir moedas pesquisáveis com agrupamento visual, nome localizado e imagem da bandeira representativa do país ou território emissor. |
 | `ConversionResult` | Renderizar resultado, validação, carregamento, erro ou estado de mesma moeda. |
 | `HistorySection` | Selecionar período e coordenar estados de consulta, resumo, gráfico e tabela. |
 | `HistoryStats` | Calcular e apresentar último ponto, mínima, máxima e variação percentual do conjunto recebido. |
@@ -58,7 +59,8 @@ A URL base fica em `src/constants/api.js`. A API pública Frankfurter v2 não ex
 
 ## Utilitários e constantes
 
-- `src/utils/currency.js`: parsing de valores em formato pt-BR, validação, cálculo e formatação.
+- `src/utils/currency.js`: parsing de valores com separadores decimais comuns, validação, cálculo e formatação por locale.
+- `src/utils/currencyFlags.js`: associação dos códigos de moeda a imagens de bandeiras de países/territórios servidas pelo FlagCDN, com fallback para emoji e ícone neutro para códigos sem associação única.
 - `src/utils/date.js`: cálculo dos intervalos e formatação de datas.
 - `src/constants/currencies.js`: códigos de moedas destacados.
 - `src/constants/periods.js`: períodos disponíveis, descrições e agrupamento.

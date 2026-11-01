@@ -1,4 +1,4 @@
-const LOCALE = 'pt-BR'
+const DEFAULT_LOCALE = 'pt-BR'
 
 export function parseAmount(rawValue) {
   if (typeof rawValue === 'number') return rawValue
@@ -39,13 +39,13 @@ export function calculateConversion(amount, rate) {
   return amount * rate
 }
 
-export function formatNumber(value) {
-  return new Intl.NumberFormat(LOCALE, {
+export function formatNumber(value, locale = DEFAULT_LOCALE) {
+  return new Intl.NumberFormat(locale, {
     maximumFractionDigits: 4,
   }).format(value)
 }
 
-export function formatCurrency(value, currencyCode) {
+export function formatCurrency(value, currencyCode, locale = DEFAULT_LOCALE) {
   if (!Number.isFinite(value)) return '—'
 
   const isSmallValue = Math.abs(value) > 0 && Math.abs(value) < 0.01
@@ -58,51 +58,51 @@ export function formatCurrency(value, currencyCode) {
   }
 
   try {
-    return new Intl.NumberFormat(LOCALE, options).format(value)
+    return new Intl.NumberFormat(locale, options).format(value)
   } catch {
-    return `${formatNumber(value)} ${currencyCode}`
+    return `${formatNumber(value, locale)} ${currencyCode}`
   }
 }
 
-export function formatRate(value) {
+export function formatRate(value, locale = DEFAULT_LOCALE) {
   const isSmallRate = Math.abs(value) > 0 && Math.abs(value) < 0.01
 
-  return new Intl.NumberFormat(LOCALE, {
+  return new Intl.NumberFormat(locale, {
     minimumFractionDigits: isSmallRate ? 8 : 2,
     maximumFractionDigits: isSmallRate ? 8 : 6,
   }).format(value)
 }
 
-export function formatAxisRate(value) {
+export function formatAxisRate(value, locale = DEFAULT_LOCALE) {
   if (!Number.isFinite(value)) return ''
 
   const magnitude = Math.abs(value)
   const maximumFractionDigits =
     magnitude >= 100 ? 0 : magnitude >= 10 ? 1 : magnitude >= 1 ? 2 : magnitude >= 0.01 ? 4 : 8
 
-  return new Intl.NumberFormat(LOCALE, {
+  return new Intl.NumberFormat(locale, {
     maximumFractionDigits,
   }).format(value)
 }
 
-export function formatPercent(value) {
+export function formatPercent(value, locale = DEFAULT_LOCALE) {
   if (!Number.isFinite(value)) return '—'
 
-  return `${new Intl.NumberFormat(LOCALE, {
+  return `${new Intl.NumberFormat(locale, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
     signDisplay: 'exceptZero',
   }).format(value)}%`
 }
 
-export function formatDate(isoDate) {
+export function formatDate(isoDate, locale = DEFAULT_LOCALE) {
   if (!isoDate) return ''
 
   const date = new Date(`${isoDate}T00:00:00Z`)
 
   if (Number.isNaN(date.getTime())) return ''
 
-  return new Intl.DateTimeFormat(LOCALE, {
+  return new Intl.DateTimeFormat(locale, {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',

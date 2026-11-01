@@ -25,24 +25,39 @@ export function getPeriodRange(period, referenceDate = new Date()) {
   return { from: toIsoDate(start), to: toIsoDate(end) }
 }
 
-export function formatAxisDate(isoDate, isLongRange = false) {
+export function formatAxisDate(
+  isoDate,
+  isLongRange = false,
+  locale = 'pt-BR',
+) {
   if (!isoDate) return ''
 
-  const [year, month, day] = isoDate.split('-')
-
-  return isLongRange ? `${month}/${year}` : `${day}/${month}`
+  const date = new Date(`${isoDate}T00:00:00Z`)
+  const options = isLongRange
+    ? { month: '2-digit', year: 'numeric', timeZone: 'UTC' }
+    : { day: '2-digit', month: '2-digit', timeZone: 'UTC' }
+  return new Intl.DateTimeFormat(locale, options).format(date)
 }
 
-export function formatShortRange(from, to) {
+export function formatShortRange(from, to, locale = 'pt-BR') {
   if (!from || !to) return ''
 
-  const [fromYear, fromMonth, fromDay] = from.split('-')
-  const [toYear, toMonth, toDay] = to.split('-')
+  const startDate = new Date(`${from}T00:00:00Z`)
+  const endDate = new Date(`${to}T00:00:00Z`)
+  const sameYear = from.slice(0, 4) === to.slice(0, 4)
+  const startOptions = {
+    day: '2-digit',
+    month: '2-digit',
+    ...(!sameYear ? { year: 'numeric' } : {}),
+    timeZone: 'UTC',
+  }
+  const endOptions = {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }
+  const separator = locale === 'en-US' ? 'to' : 'a'
 
-  const start =
-    fromYear === toYear
-      ? `${fromDay}/${fromMonth}`
-      : `${fromDay}/${fromMonth}/${fromYear}`
-
-  return `${start} a ${toDay}/${toMonth}/${toYear}`
+  return `${new Intl.DateTimeFormat(locale, startOptions).format(startDate)} ${separator} ${new Intl.DateTimeFormat(locale, endOptions).format(endDate)}`
 }

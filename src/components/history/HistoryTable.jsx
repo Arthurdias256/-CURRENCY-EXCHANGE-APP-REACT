@@ -7,6 +7,7 @@ import {
   isValidAmount,
   parseAmount,
 } from '../../utils/currency.js'
+import { useI18n } from '../../i18n/useI18n.js'
 import styles from './HistoryTable.module.css'
 
 function escapeCsvField(value) {
@@ -14,15 +15,16 @@ function escapeCsvField(value) {
 }
 
 function HistoryTable({ points, base, quote, amount, periodId }) {
+  const { locale, t } = useI18n()
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState({ key: 'date', direction: 'desc' })
 
   const visiblePoints = useMemo(() => {
-    const query = search.trim().toLocaleLowerCase('pt-BR')
+    const query = search.trim().toLocaleLowerCase(locale)
     const filteredPoints = points.filter((point) => {
       if (!query) return true
 
-      const localizedDate = formatDate(point.date).toLocaleLowerCase('pt-BR')
+      const localizedDate = formatDate(point.date, locale).toLocaleLowerCase(locale)
       return point.date.includes(query) || localizedDate.includes(query)
     })
 
@@ -34,7 +36,7 @@ function HistoryTable({ points, base, quote, amount, periodId }) {
 
       return sort.direction === 'asc' ? comparison : -comparison
     })
-  }, [points, search, sort])
+  }, [locale, points, search, sort])
 
   const toggleSort = (key) => {
     setSort((current) => {
@@ -57,7 +59,13 @@ function HistoryTable({ points, base, quote, amount, periodId }) {
   const exportCsv = () => {
     const numericAmount = parseAmount(amount)
     const rows = [
-      ['Data', 'Moeda de origem', 'Moeda de destino', 'Valor convertido', 'Taxa de câmbio'],
+      [
+        t('csv.date'),
+        t('csv.from'),
+        t('csv.to'),
+        t('csv.converted'),
+        t('csv.rate'),
+      ],
       ...visiblePoints.map((point) => {
         const convertedAmount = isValidAmount(numericAmount)
           ? calculateConversion(numericAmount, point.rate)
@@ -67,8 +75,8 @@ function HistoryTable({ points, base, quote, amount, periodId }) {
           point.date,
           base,
           quote,
-          convertedAmount === '' ? '' : formatNumber(convertedAmount),
-          formatNumber(point.rate),
+          convertedAmount === '' ? '' : formatNumber(convertedAmount, locale),
+          formatNumber(point.rate, locale),
         ]
       }),
     ]
@@ -78,7 +86,7 @@ function HistoryTable({ points, base, quote, amount, periodId }) {
     const downloadUrl = URL.createObjectURL(blob)
     const link = document.createElement('a')
     link.href = downloadUrl
-    link.download = `historico-cambio-${base.toLowerCase()}-${quote.toLowerCase()}-${periodId}.csv`
+    link.download = `${t('csv.filename')}-${base.toLowerCase()}-${quote.toLowerCase()}-${periodId}.csv`
     document.body.append(link)
     link.click()
     link.remove()
@@ -90,22 +98,26 @@ function HistoryTable({ points, base, quote, amount, periodId }) {
       <div className={styles.header}>
         <div>
           <h3 id="history-table-title" className={styles.title}>
-            Cotações no período
+            {t('table.title')}
           </h3>
           <p className={styles.description}>
-            {base} → {quote} · {visiblePoints.length} de {points.length} registros
+            {base} → {quote} ·{' '}
+            {t('table.records', {
+              visible: visiblePoints.length,
+              total: points.length,
+            })}
           </p>
         </div>
 
         <div className={styles.actions}>
           <label className={styles.searchLabel}>
-            Buscar data
+            {t('table.search')}
             <input
               className={styles.searchInput}
               type="search"
               value={search}
               onChange={(event) => setSearch(event.target.value)}
-              placeholder="DD/MM/AAAA"
+              placeholder={t('table.searchPlaceholder')}
             />
           </label>
           <button
@@ -114,14 +126,14 @@ function HistoryTable({ points, base, quote, amount, periodId }) {
             onClick={exportCsv}
             disabled={visiblePoints.length === 0}
           >
-            Exportar CSV
+            {t('table.export')}
           </button>
         </div>
       </div>
 
       {visiblePoints.length === 0 ? (
         <p className={styles.emptyState} role="status">
-          Nenhuma cotação corresponde à busca.
+          {t('table.empty')}
         </p>
       ) : (
         <div className={styles.tableWrapper}>
@@ -142,16 +154,17 @@ function HistoryTable({ points, base, quote, amount, periodId }) {
                     type="button"
                     className={styles.sortButton}
                     onClick={() => toggleSort('date')}
-                    aria-label={`Ordenar por data ${
-                      sort.key === 'date' && sort.direction === 'asc'
-                        ? 'decrescente'
-                        : 'crescente'
-                    }`}
+                    aria-label={t('table.sortDate', {
+                      direction:
+                        sort.key === 'date' && sort.direction === 'asc'
+                          ? t('table.descending')
+                          : t('table.ascending'),
+                    })}
                   >
-                    Data{sortIndicator('date')}
+                    {t('table.date')}{sortIndicator('date')}
                   </button>
                 </th>
-                <th scope="col">Par</th>
+                <th scope="col">{t('table.pair')}</th>
                 <th
                   scope="col"
                   aria-sort={
@@ -166,13 +179,14 @@ function HistoryTable({ points, base, quote, amount, periodId }) {
                     type="button"
                     className={styles.sortButton}
                     onClick={() => toggleSort('rate')}
-                    aria-label={`Ordenar por taxa ${
-                      sort.key === 'rate' && sort.direction === 'asc'
-                        ? 'decrescente'
-                        : 'crescente'
-                    }`}
+                    aria-label={t('table.sortRate', {
+                      direction:
+                        sort.key === 'rate' && sort.direction === 'asc'
+                          ? t('table.descending')
+                          : t('table.ascending'),
+                    })}
                   >
-                    Taxa{sortIndicator('rate')}
+                    {t('table.rate')}{sortIndicator('rate')}
                   </button>
                 </th>
               </tr>
@@ -180,11 +194,13 @@ function HistoryTable({ points, base, quote, amount, periodId }) {
             <tbody>
               {visiblePoints.map((point) => (
                 <tr key={point.date}>
-                  <td>{formatDate(point.date)}</td>
+                  <td>{formatDate(point.date, locale)}</td>
                   <td>
                     {base} → {quote}
                   </td>
-                  <td className={styles.rateCell}>{formatRate(point.rate)}</td>
+                  <td className={styles.rateCell}>
+                    {formatRate(point.rate, locale)}
+                  </td>
                 </tr>
               ))}
             </tbody>

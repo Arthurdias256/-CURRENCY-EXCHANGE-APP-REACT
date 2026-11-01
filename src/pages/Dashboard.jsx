@@ -1,5 +1,6 @@
 import { lazy, Suspense, useState } from 'react'
 import ConverterCard from '../components/converter/ConverterCard'
+import { useI18n } from '../i18n/useI18n.js'
 import styles from './Dashboard.module.css'
 
 const HistorySection = lazy(
@@ -7,6 +8,7 @@ const HistorySection = lazy(
 )
 
 function Dashboard() {
+  const { t } = useI18n()
   const [amount, setAmount] = useState('1')
   const [fromCurrency, setFromCurrency] = useState('USD')
   const [toCurrency, setToCurrency] = useState('BRL')
@@ -20,31 +22,28 @@ function Dashboard() {
     <main className={styles.main}>
       <section className={styles.hero} aria-labelledby="hero-title">
         <div className={styles.copy}>
-          <p className={styles.eyebrow}>Projeto acadêmico · SPA em React</p>
+          <p className={styles.eyebrow}>{t('hero.eyebrow')}</p>
 
           <h1 id="hero-title" className={styles.heading}>
-            Câmbio claro,
+            {t('hero.titleFirst')}
             <br />
-            <span className={styles.highlight}>decisões melhores.</span>
+            <span className={styles.highlight}>{t('hero.titleSecond')}</span>
           </h1>
 
-          <p className={styles.lead}>
-            Converta valores com a cotação mais recente da Frankfurter e consulte
-            a taxa efetiva de cada par de moedas.
-          </p>
+          <p className={styles.lead}>{t('hero.lead')}</p>
 
-          <ul className={styles.facts} aria-label="Informações da API">
+          <ul className={styles.facts} aria-label={t('hero.apiInfo')}>
             <li className={styles.fact}>
               <strong>170</strong>
-              <span>moedas disponíveis</span>
+              <span>{t('hero.currencyCount')}</span>
             </li>
             <li className={styles.fact}>
-              <strong>Diária</strong>
-              <span>atualização das taxas</span>
+              <strong>{t('hero.daily')}</strong>
+              <span>{t('hero.rateUpdate')}</span>
             </li>
             <li className={styles.fact}>
-              <strong>Sem chave</strong>
-              <span>acesso à API</span>
+              <strong>{t('hero.noKey')}</strong>
+              <span>{t('hero.apiAccess')}</span>
             </li>
           </ul>
         </div>
@@ -65,7 +64,7 @@ function Dashboard() {
           <div
             className={styles.historySkeleton}
             role="status"
-            aria-label="Carregando histórico"
+            aria-label={t('app.loadingHistory')}
           />
         }
       >

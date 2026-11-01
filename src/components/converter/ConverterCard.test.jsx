@@ -57,6 +57,52 @@ describe('ConverterCard', () => {
     expect(screen.getByText('1 USD = 5,20 BRL')).toBeInTheDocument()
   })
 
+  it('shows country flag images beside selected currencies', () => {
+    render(<ConverterCard {...defaultProps} />)
+
+    const sourceSelect = screen.getByRole('combobox', { name: 'De' })
+    const targetSelect = screen.getByRole('combobox', { name: 'Para' })
+
+    expect(sourceSelect.querySelector('img')).toHaveAttribute(
+      'src',
+      'https://flagcdn.com/w40/us.png',
+    )
+    expect(targetSelect.querySelector('img')).toHaveAttribute(
+      'src',
+      'https://flagcdn.com/w40/br.png',
+    )
+  })
+
+  it('falls back to a flag emoji when the image cannot be loaded', () => {
+    render(<ConverterCard {...defaultProps} />)
+
+    const sourceSelect = screen.getByRole('combobox', { name: 'De' })
+    fireEvent.error(sourceSelect.querySelector('img'))
+
+    expect(sourceSelect).toHaveTextContent('🇺🇸')
+  })
+
+  it('searches and selects a currency with its flag image', async () => {
+    const user = userEvent.setup()
+    render(<ConverterCard {...defaultProps} />)
+
+    await user.click(screen.getByRole('combobox', { name: 'De' }))
+
+    const search = screen.getByRole('searchbox', { name: 'Buscar moeda' })
+    await user.type(search, 'euro')
+    const euroOption = screen.getByRole('option', {
+      name: /EUR Euro/,
+    })
+
+    expect(euroOption.querySelector('img')).toHaveAttribute(
+      'src',
+      'https://flagcdn.com/w40/eu.png',
+    )
+    await user.click(euroOption)
+
+    expect(defaultProps.onFromChange).toHaveBeenCalledWith('EUR')
+  })
+
   it('shows validation feedback and omits the conversion for an invalid amount', () => {
     render(<ConverterCard {...defaultProps} amount="0" />)
 
@@ -77,7 +123,8 @@ describe('ConverterCard', () => {
     fireEvent.change(screen.getByRole('textbox', { name: 'Valor' }), {
       target: { value: '3,5' },
     })
-    await user.selectOptions(screen.getByRole('combobox', { name: 'De' }), 'EUR')
+    await user.click(screen.getByRole('combobox', { name: 'De' }))
+    await user.click(screen.getByRole('option', { name: /EUR Euro/ }))
     await user.click(screen.getByRole('button', { name: 'Inverter moedas' }))
 
     expect(defaultProps.onAmountChange).toHaveBeenLastCalledWith('3,5')

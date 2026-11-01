@@ -23,6 +23,9 @@ Desenvolver uma aplicação web de página única (SPA) para consultar taxas de 
 | RF-13 | Exportar para CSV as linhas visíveis da tabela com data, par, valor convertido e taxa. | Implementado |
 | RF-14 | Disponibilizar uma Collection do Postman para explorar os endpoints usados. | Implementado |
 | RF-15 | Criar e publicar protótipos navegáveis no Figma. | Pendente; este projeto contém apenas a especificação em [FIGMA.md](./FIGMA.md) |
+| RF-16 | Permitir escolher português, inglês ou espanhol e persistir a preferência no navegador. | Implementado |
+| RF-17 | Permitir alternar entre tema claro e escuro e persistir a preferência no navegador. | Implementado |
+| RF-18 | Exibir uma imagem de bandeira representativa junto ao código e nome de cada moeda nos seletores. | Implementado com fallback para emoji; moedas sem país único usam um ícone neutro |
 
 ## Requisitos não funcionais
 
