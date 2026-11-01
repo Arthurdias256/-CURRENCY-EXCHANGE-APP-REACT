@@ -1,0 +1,129 @@
+.result {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 158px;
+  padding: 20px;
+  margin-top: 20px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(86, 224, 192, 0.13), transparent 55%),
+    rgba(7, 13, 24, 0.58);
+  border: 1px solid rgba(86, 224, 192, 0.2);
+  border-radius: var(--radius-md);
+}
+
+.result::after {
+  position: absolute;
+  right: -32px;
+  bottom: -44px;
+  width: 140px;
+  height: 140px;
+  content: "";
+  background: radial-gradient(circle, rgba(86, 224, 192, 0.08), transparent 68%);
+  pointer-events: none;
+}
+
+.resultError {
+  background: rgba(127, 29, 29, 0.12);
+  border-color: rgba(248, 113, 113, 0.32);
+}
+
+.resultLabel {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.resultValue {
+  margin-top: 4px;
+  font-size: clamp(1.9rem, 4vw, 2.55rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--color-accent);
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
+}
+
+.resultMeta {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.rateRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 14px;
+  padding-top: 12px;
+  margin-top: 8px;
+  font-size: 0.74rem;
+  color: var(--color-text-subtle);
+  border-top: 1px solid var(--color-border);
+}
+
+.loading {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(86, 224, 192, 0.25);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 700ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.errorTitle {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #fca5a5;
+}
+
+.errorMessage {
+  max-width: 42ch;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+}
+
+.retryButton {
+  align-self: flex-start;
+  padding: 8px 12px;
+  margin-top: 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text);
+  background: rgba(248, 113, 113, 0.1);
+  border: 1px solid rgba(248, 113, 113, 0.28);
+  border-radius: 999px;
+  transition: background-color 160ms ease;
+}
+
+.retryButton:hover {
+  background: rgba(248, 113, 113, 0.18);
+}
+
+.placeholder {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
