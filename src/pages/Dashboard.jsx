@@ -69,7 +69,11 @@ function Dashboard() {
           />
         }
       >
-        <HistorySection fromCurrency={fromCurrency} toCurrency={toCurrency} />
+        <HistorySection
+          amount={amount}
+          fromCurrency={fromCurrency}
+          toCurrency={toCurrency}
+        />
       </Suspense>
     </main>
   )

@@ -2,7 +2,7 @@
 
 SPA em React para conversão e análise de moedas, desenvolvida como projeto acadêmico com a API pública [Frankfurter](https://frankfurter.dev/).
 
-> **Status:** Etapa 03 concluída — conversor e histórico de 8 períodos com gráfico, usando dados reais da Frankfurter API v2. Tabela, filtros e exportação CSV entram nas próximas etapas.
+> **Status:** Conversor, histórico de 8 períodos, gráfico, tabela com busca e ordenação e exportação CSV implementados usando dados reais da Frankfurter API v2. Os materiais acadêmicos seguem como próximas etapas.
 
 ## Objetivo
 
@@ -23,6 +23,8 @@ Centralizar a consulta de taxas de câmbio, a conversão de valores e a análise
 - Resumo do período com última cotação (ou último dado), mínima, máxima e variação percentual.
 - Períodos de 5 e 10 anos agrupados por mês pela API para manter o gráfico legível.
 - Gráfico carregado sob demanda (code splitting), mantendo o bundle inicial leve.
+- Tabela de cotações do período, com busca por data e ordenação por data ou taxa.
+- Exportação CSV dos registros visíveis, incluindo data, moedas, taxa e valor convertido para o valor informado no conversor.
 
 ## Tecnologias
 
@@ -81,6 +83,8 @@ A conversão é calculada no navegador a partir da taxa retornada pela API. A da
 2. Role até a seção **Histórico**.
 3. Selecione um dos 8 períodos: **7d**, **15d**, **30d**, **3m**, **6m**, **1y**, **5y** ou **10y**.
 4. O gráfico e os cards de resumo são atualizados automaticamente.
+5. Consulte a tabela abaixo do gráfico; use a busca para localizar uma data e os cabeçalhos **Data** e **Taxa** para ordenar.
+6. Clique em **Exportar CSV** para baixar os registros atualmente filtrados e ordenados. O valor convertido usa o valor informado no conversor.
 
 Nos períodos de 5 e 10 anos a API agrupa os dados por mês; por isso o último ponto pode diferir da cotação atual exibida no conversor. O rodapé da seção informa essa condição.
 
@@ -101,6 +105,8 @@ src/
 │   │   ├── HistorySection.module.css
 │   │   ├── HistoryStats.jsx
 │   │   ├── HistoryStats.module.css
+│   │   ├── HistoryTable.jsx
+│   │   ├── HistoryTable.module.css
 │   │   ├── RateChart.jsx
 │   │   └── RateChart.module.css
 │   └── layout/
@@ -173,8 +179,8 @@ Nos períodos de 5 e 10 anos, o histórico é solicitado com `group=month`.
 - [x] Estados de loading, erro e validação
 - [x] Inversão de moedas
 - [x] Histórico e gráfico
-- [ ] Tabela, filtros e ordenação
-- [ ] Exportação CSV
+- [x] Tabela de cotações com busca por data e ordenação
+- [x] Exportação CSV
 - [ ] Documentação completa (`REQUIREMENTS.md`, `FIGMA.md`, `COMPONENTS.md`, `API_TESTS.md`, `FUNCTION_TESTS.md`, `AI_USAGE.md`)
 - [ ] Collection do Postman
 - [ ] Protótipos no Figma

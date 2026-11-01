@@ -6,10 +6,11 @@ import {
 import { useHistoricalRates } from '../../hooks/useHistoricalRates.js'
 import { formatShortRange } from '../../utils/date.js'
 import HistoryStats from './HistoryStats'
+import HistoryTable from './HistoryTable'
 import RateChart from './RateChart'
 import styles from './HistorySection.module.css'
 
-function HistorySection({ fromCurrency, toCurrency }) {
+function HistorySection({ amount, fromCurrency, toCurrency }) {
   const [periodId, setPeriodId] = useState(DEFAULT_HISTORY_PERIOD)
 
   const period =
@@ -109,6 +110,13 @@ function HistorySection({ fromCurrency, toCurrency }) {
               base={fromCurrency}
               quote={toCurrency}
               isLongRange={isLongRange}
+            />
+            <HistoryTable
+              points={points}
+              base={fromCurrency}
+              quote={toCurrency}
+              amount={amount}
+              periodId={period.id}
             />
           </>
         )}
