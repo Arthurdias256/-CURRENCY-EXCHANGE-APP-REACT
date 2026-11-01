@@ -1,0 +1,104 @@
+:root {
+  color-scheme: dark;
+
+  --color-bg: #070d18;
+  --color-bg-soft: #0b1424;
+  --color-surface: #0f1b2d;
+  --color-surface-strong: #142338;
+  --color-border: rgba(148, 163, 184, 0.16);
+  --color-border-strong: rgba(148, 163, 184, 0.3);
+
+  --color-text: #e8eef8;
+  --color-text-muted: #9aabc2;
+  --color-text-subtle: #6f8199;
+
+  --color-accent: #56e0c0;
+  --color-accent-strong: #2dd4bf;
+  --color-accent-soft: rgba(86, 224, 192, 0.12);
+  --color-warning: #f5c26b;
+
+  --font-sans: "Segoe UI", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    Roboto, Helvetica, Arial, sans-serif;
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+
+  --max-width: 1120px;
+  --shadow-card: 0 24px 80px rgba(0, 0, 0, 0.35);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  min-width: 320px;
+  background-color: var(--color-bg);
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  color: var(--color-text);
+  background:
+    radial-gradient(circle at 12% -8%, rgba(45, 212, 191, 0.1), transparent 34rem),
+    radial-gradient(circle at 92% 2%, rgba(79, 140, 255, 0.08), transparent 30rem),
+    var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+::selection {
+  color: #ffffff;
+  background: rgba(86, 224, 192, 0.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
