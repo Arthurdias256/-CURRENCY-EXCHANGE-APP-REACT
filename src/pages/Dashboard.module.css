@@ -1,0 +1,128 @@
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: clamp(40px, 7vw, 88px) 24px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.95fr);
+  gap: clamp(32px, 6vw, 72px);
+  align-items: center;
+}
+
+.copy {
+  max-width: 620px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.eyebrow::before {
+  width: 24px;
+  height: 1px;
+  content: "";
+  background: currentColor;
+  opacity: 0.7;
+}
+
+.heading {
+  font-size: clamp(2.6rem, 6vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+
+.highlight {
+  color: var(--color-accent);
+}
+
+.lead {
+  max-width: 56ch;
+  margin-top: 24px;
+  font-size: clamp(1rem, 1.4vw, 1.1rem);
+  line-height: 1.7;
+  color: var(--color-text-muted);
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0;
+  margin-top: 32px;
+  list-style: none;
+}
+
+.fact {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 128px;
+  padding: 11px 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.fact strong {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.fact span {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+}
+
+.historySkeleton {
+  min-height: 420px;
+  margin-top: clamp(48px, 7vw, 88px);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  opacity: 0.45;
+}
+
+@media (max-width: 980px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .copy {
+    max-width: 700px;
+  }
+}
+
+@media (max-width: 560px) {
+  .main {
+    padding: 36px 18px 52px;
+  }
+
+  .heading {
+    font-size: clamp(2.3rem, 12vw, 3.2rem);
+  }
+
+  .facts {
+    gap: 8px;
+    margin-top: 26px;
+  }
+
+  .fact {
+    flex: 1 1 104px;
+    min-width: 0;
+    padding: 10px 12px;
+  }
+}

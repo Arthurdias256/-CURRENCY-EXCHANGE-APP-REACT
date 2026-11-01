@@ -1,0 +1,25 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  max-width: var(--max-width);
+  padding: 22px 24px 28px;
+  margin: 0 auto;
+  font-size: 0.78rem;
+  color: var(--color-text-subtle);
+  border-top: 1px solid var(--color-border);
+}
+
+@media (max-width: 560px) {
+  .footer {
+    flex-direction: column;
+    padding: 20px 18px 26px;
+  }
+}
