@@ -1,6 +1,10 @@
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import ConverterCard from '../components/converter/ConverterCard'
 import styles from './Dashboard.module.css'
+
+const HistorySection = lazy(
+  () => import('../components/history/HistorySection'),
+)
 
 function Dashboard() {
   const [amount, setAmount] = useState('1')
@@ -55,6 +59,18 @@ function Dashboard() {
           onSwap={handleSwap}
         />
       </section>
+
+      <Suspense
+        fallback={
+          <div
+            className={styles.historySkeleton}
+            role="status"
+            aria-label="Carregando histórico"
+          />
+        }
+      >
+        <HistorySection fromCurrency={fromCurrency} toCurrency={toCurrency} />
+      </Suspense>
     </main>
   )
 }

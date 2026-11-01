@@ -2,7 +2,7 @@
 
 SPA em React para conversão e análise de moedas, desenvolvida como projeto acadêmico com a API pública [Frankfurter](https://frankfurter.dev/).
 
-> **Status:** Etapa 02 concluída — conversor funcional com dados reais da Frankfurter API v2. Histórico, gráficos, tabela, filtros e exportação CSV entram nas próximas etapas.
+> **Status:** Etapa 03 concluída — conversor e histórico de 8 períodos com gráfico, usando dados reais da Frankfurter API v2. Tabela, filtros e exportação CSV entram nas próximas etapas.
 
 ## Objetivo
 
@@ -18,6 +18,11 @@ Centralizar a consulta de taxas de câmbio, a conversão de valores e a análise
 - Tratamento de loading, erro de conexão, moeda inválida e tentativa de nova consulta.
 - Suporte a conversão entre a mesma moeda, sem chamada desnecessária à API.
 - Formatação de valores em pt-BR, incluindo taxas muito pequenas (ex.: BTC).
+- Histórico de cotações em 8 períodos: 7d, 15d, 30d, 3m, 6m, 1y, 5y e 10y.
+- Gráfico de evolução da taxa com tooltip por data.
+- Resumo do período com última cotação (ou último dado), mínima, máxima e variação percentual.
+- Períodos de 5 e 10 anos agrupados por mês pela API para manter o gráfico legível.
+- Gráfico carregado sob demanda (code splitting), mantendo o bundle inicial leve.
 
 ## Tecnologias
 
@@ -27,9 +32,9 @@ Centralizar a consulta de taxas de câmbio, a conversão de valores e a análise
 - CSS Modules
 - ESLint
 - Fetch API + async/await
-- Custom Hooks (`useCurrencies` e `useExchangeRate`)
+- Custom Hooks (`useCurrencies`, `useExchangeRate` e `useHistoricalRates`)
 - Frankfurter API v2
-- Recharts (previsto para a etapa de gráficos)
+- Recharts (gráfico de histórico)
 
 ## Pré-requisitos
 
@@ -70,6 +75,15 @@ npm run lint     # executa o ESLint
 
 A conversão é calculada no navegador a partir da taxa retornada pela API. A data exibida é a data efetiva da cotação, que pode ser anterior à data atual em pares com menor cobertura.
 
+### Histórico e gráfico
+
+1. Escolha o par de moedas no conversor.
+2. Role até a seção **Histórico**.
+3. Selecione um dos 8 períodos: **7d**, **15d**, **30d**, **3m**, **6m**, **1y**, **5y** ou **10y**.
+4. O gráfico e os cards de resumo são atualizados automaticamente.
+
+Nos períodos de 5 e 10 anos a API agrupa os dados por mês; por isso o último ponto pode diferir da cotação atual exibida no conversor. O rodapé da seção informa essa condição.
+
 ## Estrutura atual
 
 ```text
@@ -82,15 +96,24 @@ src/
 │   │   ├── ConverterCard.module.css
 │   │   ├── CurrencySelect.jsx
 │   │   └── CurrencySelect.module.css
+│   ├── history/
+│   │   ├── HistorySection.jsx
+│   │   ├── HistorySection.module.css
+│   │   ├── HistoryStats.jsx
+│   │   ├── HistoryStats.module.css
+│   │   ├── RateChart.jsx
+│   │   └── RateChart.module.css
 │   └── layout/
 │       ├── Header.jsx
 │       └── Header.module.css
 ├── constants/
 │   ├── api.js
-│   └── currencies.js
+│   ├── currencies.js
+│   └── periods.js
 ├── hooks/
 │   ├── useCurrencies.js
-│   └── useExchangeRate.js
+│   ├── useExchangeRate.js
+│   └── useHistoricalRates.js
 ├── pages/
 │   ├── Dashboard.jsx
 │   └── Dashboard.module.css
@@ -99,7 +122,8 @@ src/
 ├── styles/
 │   └── globals.css
 ├── utils/
-│   └── currency.js
+│   ├── currency.js
+│   └── date.js
 ├── App.jsx
 ├── App.module.css
 └── main.jsx
@@ -115,12 +139,22 @@ Endpoints utilizados:
 |---|---|
 | Moedas disponíveis | `GET /v2/currencies` |
 | Taxa de um par | `GET /v2/rate/{base}/{quote}` |
-
-Endpoints previstos para as próximas etapas:
-
-| Finalidade | Endpoint |
-|---|---|
 | Histórico por período | `GET /v2/rates?from=...&to=...&base=...&quotes=...` |
+
+Nos períodos de 5 e 10 anos, o histórico é solicitado com `group=month`.
+
+### Períodos do histórico
+
+| Período | Intervalo | Agrupamento |
+|---|---|---|
+| `7d` | últimos 7 dias | diário |
+| `15d` | últimos 15 dias | diário |
+| `30d` | últimos 30 dias | diário |
+| `3m` | últimos 3 meses | diário |
+| `6m` | últimos 6 meses | diário |
+| `1y` | último 1 ano | diário |
+| `5y` | últimos 5 anos | mensal |
+| `10y` | últimos 10 anos | mensal |
 
 ### Tratamento de erros
 
@@ -138,7 +172,7 @@ Endpoints previstos para as próximas etapas:
 - [x] Integração com a Frankfurter API v2
 - [x] Estados de loading, erro e validação
 - [x] Inversão de moedas
-- [ ] Histórico e gráfico
+- [x] Histórico e gráfico
 - [ ] Tabela, filtros e ordenação
 - [ ] Exportação CSV
 - [ ] Documentação completa (`REQUIREMENTS.md`, `FIGMA.md`, `COMPONENTS.md`, `API_TESTS.md`, `FUNCTION_TESTS.md`, `AI_USAGE.md`)

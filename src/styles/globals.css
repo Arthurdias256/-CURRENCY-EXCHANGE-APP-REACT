@@ -16,6 +16,7 @@
   --color-accent-strong: #2dd4bf;
   --color-accent-soft: rgba(86, 224, 192, 0.12);
   --color-warning: #f5c26b;
+  --color-danger: #f87171;
 
   --font-sans: "Segoe UI", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     Roboto, Helvetica, Arial, sans-serif;

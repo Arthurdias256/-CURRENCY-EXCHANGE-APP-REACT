@@ -96,3 +96,25 @@ export async function getRate(base, quote, { signal } = {}) {
     date: data.date,
   }
 }
+
+export async function getTimeSeries(base, quote, { from, to, group, signal } = {}) {
+  const searchParams = new URLSearchParams({
+    from,
+    to,
+    base,
+    quotes: quote,
+  })
+
+  if (group) searchParams.set('group', group)
+
+  const data = await request(`/rates?${searchParams.toString()}`, { signal })
+
+  if (!Array.isArray(data)) {
+    throw new ApiError('A API retornou o histórico em um formato inesperado.')
+  }
+
+  return data
+    .filter((point) => point?.date && Number.isFinite(point.rate))
+    .map((point) => ({ date: point.date, rate: point.rate }))
+    .sort((first, second) => first.date.localeCompare(second.date))
+}

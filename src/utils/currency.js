@@ -73,6 +73,28 @@ export function formatRate(value) {
   }).format(value)
 }
 
+export function formatAxisRate(value) {
+  if (!Number.isFinite(value)) return ''
+
+  const magnitude = Math.abs(value)
+  const maximumFractionDigits =
+    magnitude >= 100 ? 0 : magnitude >= 10 ? 1 : magnitude >= 1 ? 2 : magnitude >= 0.01 ? 4 : 8
+
+  return new Intl.NumberFormat(LOCALE, {
+    maximumFractionDigits,
+  }).format(value)
+}
+
+export function formatPercent(value) {
+  if (!Number.isFinite(value)) return '—'
+
+  return `${new Intl.NumberFormat(LOCALE, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+    signDisplay: 'exceptZero',
+  }).format(value)}%`
+}
+
 export function formatDate(isoDate) {
   if (!isoDate) return ''
 
