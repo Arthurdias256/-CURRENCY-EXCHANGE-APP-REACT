@@ -62,8 +62,8 @@ export function useExchangeRate(base, quote) {
 
   return {
     rateData: effectiveRateData,
-    isLoading: isLoading || isPending,
-    error,
+    isLoading: !isSameCurrency && (isLoading || isPending),
+    error: isSameCurrency ? null : error,
     retry,
     isSameCurrency,
   }
