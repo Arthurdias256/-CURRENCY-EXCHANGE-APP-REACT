@@ -1,0 +1,225 @@
+{
+  "info": {
+    "_postman_id": "14df8c99-04d9-4ad0-9387-51dd766c83ec",
+    "name": "Currency Exchange App - Frankfurter API v2",
+    "description": "Requisições para explorar e validar os endpoints Frankfurter API v2 utilizados pelo Currency Exchange App. A API é pública e não exige chave. A conversão é calculada no cliente a partir da taxa retornada.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "apiBase",
+      "value": "https://api.frankfurter.dev/v2",
+      "type": "string"
+    },
+    {
+      "key": "base",
+      "value": "USD",
+      "type": "string"
+    },
+    {
+      "key": "quote",
+      "value": "BRL",
+      "type": "string"
+    },
+    {
+      "key": "amount",
+      "value": "100",
+      "type": "string"
+    },
+    {
+      "key": "fromDate",
+      "value": "2024-01-01",
+      "type": "string"
+    },
+    {
+      "key": "toDate",
+      "value": "2024-01-31",
+      "type": "string"
+    },
+    {
+      "key": "monthlyFromDate",
+      "value": "2024-01-01",
+      "type": "string"
+    },
+    {
+      "key": "monthlyToDate",
+      "value": "2024-03-31",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Moedas disponíveis",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{apiBase}}/currencies",
+        "description": "Lista as moedas disponíveis e seus códigos, nomes e símbolos."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Retorna HTTP 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Retorna uma lista de moedas válida', function () {",
+              "  const currencies = pm.response.json();",
+              "  pm.expect(currencies).to.be.an('array').that.is.not.empty;",
+              "  pm.expect(currencies[0]).to.have.property('iso_code');",
+              "  pm.expect(currencies[0]).to.have.property('name');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Taxa atual do par",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{apiBase}}/rate/{{base}}/{{quote}}",
+        "description": "Consulta a taxa mais recente para as moedas base e quote."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Retorna HTTP 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Retorna a taxa do par solicitado', function () {",
+              "  const rateData = pm.response.json();",
+              "  pm.expect(rateData.base).to.eql(pm.collectionVariables.get('base'));",
+              "  pm.expect(rateData.quote).to.eql(pm.collectionVariables.get('quote'));",
+              "  pm.expect(rateData.rate).to.be.a('number').and.above(0);",
+              "  pm.expect(rateData.date).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+              "  pm.collectionVariables.set('lastRate', rateData.rate);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Conversão com a taxa atual",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{apiBase}}/rate/{{base}}/{{quote}}",
+        "description": "A Frankfurter fornece a taxa; este teste calcula o valor convertido como a aplicação faz no navegador."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Retorna HTTP 200 e calcula uma conversão válida', function () {",
+              "  pm.response.to.have.status(200);",
+              "  const rateData = pm.response.json();",
+              "  const amount = Number(pm.collectionVariables.get('amount'));",
+              "  pm.expect(amount).to.be.a('number').and.above(0);",
+              "  pm.expect(rateData.rate).to.be.a('number').and.above(0);",
+              "  const convertedAmount = amount * rateData.rate;",
+              "  pm.collectionVariables.set('lastRate', rateData.rate);",
+              "  pm.collectionVariables.set('convertedAmount', convertedAmount);",
+              "  console.log(amount + ' ' + rateData.base + ' = ' + convertedAmount + ' ' + rateData.quote);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Histórico por intervalo de datas",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{apiBase}}/rates?from={{fromDate}}&to={{toDate}}&base={{base}}&quotes={{quote}}",
+        "description": "Consulta cotações diárias em um intervalo definido por fromDate e toDate."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Retorna HTTP 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Retorna uma série histórica válida', function () {",
+              "  const points = pm.response.json();",
+              "  pm.expect(points).to.be.an('array').that.is.not.empty;",
+              "  points.forEach(function (point) {",
+              "    pm.expect(point.date).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+              "    pm.expect(point.base).to.eql(pm.collectionVariables.get('base'));",
+              "    pm.expect(point.quote).to.eql(pm.collectionVariables.get('quote'));",
+              "    pm.expect(point.rate).to.be.a('number').and.above(0);",
+              "  });",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Histórico agrupado por mês",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{apiBase}}/rates?from={{monthlyFromDate}}&to={{monthlyToDate}}&base={{base}}&quotes={{quote}}&group=month",
+        "description": "Demonstra o agrupamento mensal utilizado no gráfico para períodos longos."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Retorna HTTP 200 com dados agrupados', function () {",
+              "  pm.response.to.have.status(200);",
+              "  const points = pm.response.json();",
+              "  pm.expect(points).to.be.an('array').that.is.not.empty;",
+              "  points.forEach(function (point) {",
+              "    pm.expect(point).to.have.property('date');",
+              "    pm.expect(point.rate).to.be.a('number').and.above(0);",
+              "  });",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

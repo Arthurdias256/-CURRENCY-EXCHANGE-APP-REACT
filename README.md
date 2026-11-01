@@ -159,6 +159,10 @@ Endpoints utilizados:
 
 Nos períodos de 5 e 10 anos, o histórico é solicitado com `group=month`.
 
+### Postman
+
+Importe `postman/Currency Exchange App.postman_collection.json` no Postman. A collection inclui consultas de moedas, taxa atual, conversão calculada com a taxa retornada e histórico diário ou agrupado por mês. Edite as variáveis da collection (`base`, `quote`, `amount`, `fromDate` e `toDate`) para testar outros valores. A API não exige autenticação.
+
 ### Períodos do histórico
 
 | Período | Intervalo | Agrupamento |
@@ -192,7 +196,7 @@ Nos períodos de 5 e 10 anos, o histórico é solicitado com `group=month`.
 - [x] Tabela de cotações com busca por data e ordenação
 - [x] Exportação CSV
 - [ ] Documentação completa (`REQUIREMENTS.md`, `FIGMA.md`, `COMPONENTS.md`, `API_TESTS.md`, `FUNCTION_TESTS.md`, `AI_USAGE.md`)
-- [ ] Collection do Postman
+- [x] Collection do Postman
 - [ ] Protótipos no Figma
 
 ## Créditos
