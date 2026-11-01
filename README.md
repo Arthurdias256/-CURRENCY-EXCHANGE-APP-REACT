@@ -65,7 +65,10 @@ Outros scripts disponíveis:
 npm run build    # gera a versão de produção em dist/
 npm run preview  # pré-visualiza a versão de produção
 npm run lint     # executa o ESLint
+npm test         # executa os testes automatizados
 ```
+
+Os testes usam Vitest e Testing Library para verificar conversão, estados do hook de cotação, seleção e carregamento de períodos históricos, busca, ordenação e exportação CSV.
 
 ## Como utilizar
 
@@ -98,15 +101,18 @@ src/
 │   │   ├── ConversionResult.module.css
 │   │   ├── ConverterCard.jsx
 │   │   ├── ConverterCard.module.css
+│   │   ├── ConverterCard.test.jsx
 │   │   ├── CurrencySelect.jsx
 │   │   └── CurrencySelect.module.css
 │   ├── history/
 │   │   ├── HistorySection.jsx
 │   │   ├── HistorySection.module.css
+│   │   ├── HistorySection.test.jsx
 │   │   ├── HistoryStats.jsx
 │   │   ├── HistoryStats.module.css
 │   │   ├── HistoryTable.jsx
 │   │   ├── HistoryTable.module.css
+│   │   ├── HistoryTable.test.jsx
 │   │   ├── RateChart.jsx
 │   │   └── RateChart.module.css
 │   └── layout/
@@ -119,7 +125,9 @@ src/
 ├── hooks/
 │   ├── useCurrencies.js
 │   ├── useExchangeRate.js
-│   └── useHistoricalRates.js
+│   ├── useExchangeRate.test.jsx
+│   ├── useHistoricalRates.js
+│   └── useHistoricalRates.test.jsx
 ├── pages/
 │   ├── Dashboard.jsx
 │   └── Dashboard.module.css
@@ -127,6 +135,8 @@ src/
 │   └── frankfurterApi.js
 ├── styles/
 │   └── globals.css
+├── test/
+│   └── setup.js
 ├── utils/
 │   ├── currency.js
 │   └── date.js
