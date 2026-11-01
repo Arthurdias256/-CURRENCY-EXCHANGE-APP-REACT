@@ -2,7 +2,7 @@
 
 SPA em React para conversão e análise de moedas, desenvolvida como projeto acadêmico com a API pública [Frankfurter](https://frankfurter.dev/).
 
-> **Status:** Conversor, histórico de 8 períodos, gráfico, tabela com busca e ordenação e exportação CSV implementados usando dados reais da Frankfurter API v2. Os materiais acadêmicos seguem como próximas etapas.
+> **Status:** Conversor, histórico de 8 períodos, gráfico, tabela com busca e ordenação, exportação CSV, Collection do Postman e documentação acadêmica implementados usando dados reais da Frankfurter API v2. Os protótipos no Figma ainda não foram criados.
 
 ## Objetivo
 
@@ -163,6 +163,16 @@ Nos períodos de 5 e 10 anos, o histórico é solicitado com `group=month`.
 
 Importe `postman/Currency Exchange App.postman_collection.json` no Postman. A collection inclui consultas de moedas, taxa atual, conversão calculada com a taxa retornada e histórico diário ou agrupado por mês. Edite as variáveis da collection (`base`, `quote`, `amount`, `fromDate` e `toDate`) para testar outros valores. A API não exige autenticação.
 
+## Documentação acadêmica
+
+- [Requisitos e critérios de aceite](./REQUIREMENTS.md)
+- [Especificação para os protótipos no Figma](./FIGMA.md) (documento de referência; protótipos ainda não criados)
+- [Arquitetura e responsabilidades dos componentes](./COMPONENTS.md)
+- [Casos e execução de testes da API](./API_TESTS.md)
+- [Matriz de testes funcionais](./FUNCTION_TESTS.md)
+- [Registro de uso de IA](./AI_USAGE.md)
+- [Collection do Postman](./postman/Currency%20Exchange%20App.postman_collection.json)
+
 ### Períodos do histórico
 
 | Período | Intervalo | Agrupamento |
@@ -195,9 +205,9 @@ Importe `postman/Currency Exchange App.postman_collection.json` no Postman. A co
 - [x] Histórico e gráfico
 - [x] Tabela de cotações com busca por data e ordenação
 - [x] Exportação CSV
-- [ ] Documentação completa (`REQUIREMENTS.md`, `FIGMA.md`, `COMPONENTS.md`, `API_TESTS.md`, `FUNCTION_TESTS.md`, `AI_USAGE.md`)
+- [x] Documentação acadêmica (`REQUIREMENTS.md`, `FIGMA.md`, `COMPONENTS.md`, `API_TESTS.md`, `FUNCTION_TESTS.md`, `AI_USAGE.md`)
 - [x] Collection do Postman
-- [ ] Protótipos no Figma
+- [ ] Protótipos no Figma (especificação disponível em `FIGMA.md`)
 
 ## Créditos
 
