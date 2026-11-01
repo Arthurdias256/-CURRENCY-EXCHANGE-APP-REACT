@@ -2,7 +2,7 @@
 
 SPA em React para conversão e análise de moedas, desenvolvida como projeto acadêmico com a API pública [Frankfurter](https://frankfurter.dev/).
 
-> **Status:** Conversor com bandeiras de países nos seletores, histórico de 8 períodos, gráfico, tabela com busca e ordenação, exportação CSV, interface em português/inglês/espanhol, temas claro/escuro, Collection do Postman e documentação acadêmica implementados usando dados reais da Frankfurter API v2. Os protótipos no Figma ainda não foram criados.
+> **Status:** Conversor com bandeiras de países nos seletores, histórico de 8 períodos, gráfico, tabela com busca e ordenação, exportação CSV, interface em português/inglês/espanhol, temas claro/escuro, Collection do Postman e documentação acadêmica implementados usando dados reais da Frankfurter API v2. O arquivo do protótipo Figma está disponível na [documentação](./FIGMA.md).
 
 ## Objetivo
 
@@ -169,7 +169,7 @@ Importe `postman/Currency Exchange App.postman_collection.json` no Postman. A co
 ## Documentação acadêmica
 
 - [Requisitos e critérios de aceite](./REQUIREMENTS.md)
-- [Especificação para os protótipos no Figma](./FIGMA.md) (documento de referência; protótipos ainda não criados)
+- [Protótipo e especificação para o Figma](./FIGMA.md)
 - [Arquitetura e responsabilidades dos componentes](./COMPONENTS.md)
 - [Casos e execução de testes da API](./API_TESTS.md)
 - [Matriz de testes funcionais](./FUNCTION_TESTS.md)
@@ -210,7 +210,7 @@ Importe `postman/Currency Exchange App.postman_collection.json` no Postman. A co
 - [x] Exportação CSV
 - [x] Documentação acadêmica (`REQUIREMENTS.md`, `FIGMA.md`, `COMPONENTS.md`, `API_TESTS.md`, `FUNCTION_TESTS.md`, `AI_USAGE.md`)
 - [x] Collection do Postman
-- [ ] Protótipos no Figma (especificação disponível em `FIGMA.md`)
+- [x] Arquivo do protótipo no Figma (link disponível em `FIGMA.md`)
 
 ## Créditos
 

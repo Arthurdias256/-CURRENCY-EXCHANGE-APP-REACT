@@ -1,6 +1,8 @@
-# Especificação para protótipos no Figma
+# Protótipo e especificação para o Figma
 
-> Este documento descreve telas e componentes para reprodução no Figma. Nenhum arquivo ou protótipo foi criado no Figma como parte desta etapa.
+> O arquivo do protótipo está disponível no Figma. Este documento registra as telas e os componentes de referência para o projeto.
+
+**Arquivo Figma:** [CurrencyX – Currency Exchange App](https://www.figma.com/design/dY5vYBYni2k2vSbgAKgqqf/CurrencyX-%E2%80%93-Currency-Exchange-App?node-id=0-1&p=f&t=Ctt4l4qOLYhsEle3-0)
 
 ## Objetivo do protótipo
 
@@ -86,4 +88,4 @@ O seletor de idioma e o tema escolhido permanecem após recarregar a página. Re
 - [ ] Montar os frames desktop e mobile.
 - [ ] Prototipar navegação entre estados do dashboard.
 - [ ] Conferir contraste, foco, conteúdo e dimensões com a aplicação aberta.
-- [ ] Inserir neste documento o link do arquivo Figma depois de criado e compartilhado.
+- [x] Inserir neste documento o link do arquivo Figma.
